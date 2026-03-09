@@ -12,7 +12,7 @@ Route::get('/game', function (Request $request, ChallengeGenerator $challengeGen
         $request->session()->put('game', $game);
     }
 
-    if($game->isCompleted() || $game->isFailed()){
+    if($game->isOver()){
         $request->session()->forget('game');
     }
 
