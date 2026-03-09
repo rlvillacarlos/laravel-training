@@ -20,10 +20,15 @@ Route::get('/game', function (Request $request, ChallengeGenerator $challengeGen
 })->name('game.show');
 
 Route::put('/game', function (Request $request) {
-    $guess = $request->input('guess');
-
     $game = $request->session()->get('game');
-    $game->guess($guess);
+
+    $skip = $request->input('skip', false);
+    if($skip){
+        $game->skip();
+    }else{
+        $guess = $request->input('guess');
+        $game->guess($guess);
+    }
 
     return redirect()->route('game.show');
 })->name('game.update');
