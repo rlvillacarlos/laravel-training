@@ -16,7 +16,9 @@ Route::get('/game', function (Request $request, ChallengeGenerator $challengeGen
         $request->session()->forget('game');
     }
 
-    return view('game.show', compact('game'));
+    $disabledKeys = $game->isOver() ? true : $game->getUsedLetters();
+    
+    return view('game.show', compact('game', 'disabledKeys'));
 })->name('game.show');
 
 Route::put('/game', function (Request $request) {
