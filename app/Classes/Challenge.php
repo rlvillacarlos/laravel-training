@@ -12,6 +12,8 @@ class Challenge
         }
     }
 
+    private bool $isSkipped = false;
+
     private array $foundLetters = [];
 
     private array $usedLetters = [];
@@ -42,7 +44,11 @@ class Challenge
     }
 
     public  function isFailed() : bool {
-        return $this->lives <= 0;
+        return $this->lives <= 0 || $this->isSkipped;
+    }
+
+    public function skip() : void {
+        $this->isSkipped = true;
     }
 
     public function __tostring() : string {
