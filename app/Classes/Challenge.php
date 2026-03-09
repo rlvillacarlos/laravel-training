@@ -27,7 +27,10 @@ class Challenge
     public function getUsedLetters() : array {
         return $this->usedLetters;
     }
-
+    public function isAlreadyUsed(string $guess) : bool {
+        return in_array($guess, $this->usedLetters);
+    }
+    
     public function guess(string $guess): bool {
         $this->usedLetters[] = $guess;
 
