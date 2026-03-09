@@ -30,6 +30,10 @@ class Challenge
     public function isAlreadyUsed(string $guess) : bool {
         return in_array($guess, $this->usedLetters);
     }
+
+    public function isOver() : bool {
+        return $this->isCompleted() || $this->isFailed();
+    }
     
     public function guess(string $guess): bool {
         $this->usedLetters[] = $guess;
