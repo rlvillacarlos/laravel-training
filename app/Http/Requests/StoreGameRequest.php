@@ -22,9 +22,9 @@ class StoreGameRequest extends FormRequest
      */
     public function rules(): array
     {
-        $games = $this->session()->get('games', []);
-
-        $names = array_map(fn($game) => $game['name'], $games);
+        $names = $this->session()
+            ->get('games', collect([]))
+            ->pluck('name');
 
         return [
             'name' => [

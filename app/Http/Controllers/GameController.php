@@ -19,7 +19,7 @@ class GameController extends Controller
      */
     public function index(Request $request)
     {
-        $games = $request->session()->get('games', []);
+        $games = $request->session()->get('games', collect([]));
 
         return view('games.index', compact('games'));
     }
@@ -37,16 +37,18 @@ class GameController extends Controller
      */
     public function store(StoreGameRequest $request)
     {
-        $games = $request->session()->get('games', []);
+        $games = $request->session()->get('games', collect([]));
 
         $data = $request->safe()->only('name');
 
         $id = Str::uuid()->toString();
 
-        $games[$id] = [
-            'name' => $data['name'],
-            'challenge' => $this->challengeGenerator->generate()
-        ];
+        $games->put($id,
+            [
+                'name' => $data['name'],
+                'challenge' => $this->challengeGenerator->generate()
+            ]
+        );
 
         $request->session()->put('games', $games);
 
@@ -58,13 +60,13 @@ class GameController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $games = $request->session()->get('games', []);
+        $games = $request->session()->get('games', collect([]));
+        $game = $games->filter(fn($game, $game_id) => $game_id == $id)->first();
 
-        if(!array_key_exists($id, $games)){
+        if(!$game){
             abort(404);
         }
 
-        $game = $games[$id];
         $name = $game['name'];
         $challenge = $game['challenge'];
         $disabledKeys = false;
@@ -72,7 +74,7 @@ class GameController extends Controller
         if($challenge->isOver()) {
             $disabledKeys = true;
             $game['challenge'] = $this->challengeGenerator->generate();
-            $games[$id] = $game;
+            $games->put($id,$game);
             $request->session()->put('games', $games);          
         } else {
             $disabledKeys = $challenge->getGuesses();
@@ -94,13 +96,15 @@ class GameController extends Controller
      */
     public function update(UpdateGameRequest $request, string $id)
     {
-        $games = $request->session()->get('games', []);
+        $game = $request->session()
+            ->get('games', collect([]))
+            ->filter(fn($game, $game_id) => $game_id == $id)
+            ->first();
 
-        if(!array_key_exists($id, $games)){
+        if(!$game){
             abort(404);
         }
 
-        $game = $games[$id];
         $challenge = $game['challenge'];
 
         $skip = $request->input('skip', false);

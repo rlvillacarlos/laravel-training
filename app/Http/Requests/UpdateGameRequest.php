@@ -22,8 +22,10 @@ class UpdateGameRequest extends FormRequest
      */
     public function rules(): array
     {
-        $games = $this->session()->get('games', []);
-        $game = $games[$this->id];
+        $game = $this->session()
+            ->get('games', collect([]))
+            ->filter(fn($game, $id) => $id == $this->id)
+            ->first();
 
         return [
             'guess' => [
