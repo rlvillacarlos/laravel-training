@@ -54,6 +54,10 @@ class Challenge
         return $this->lives <= 0 || $this->isSkipped;
     }
 
+    public function isCritical(): bool {
+        return $this->lives < self::MAX_LIVES/2;
+    }
+
     public function skip() : void {
         $this->isSkipped = true;
     }
