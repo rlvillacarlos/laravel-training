@@ -1,8 +1,13 @@
 <?php
 
 use App\Classes\ChallengeGenerator;
+use App\Http\Controllers\GameController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+
+Route::resource('games', GameController::class)->except([
+    'edit', 'update'
+])->parameter('games', 'id');
 
 Route::name("game.")->group(function (){
     Route::get('/game', function (Request $request, ChallengeGenerator $challengeGenerator){
