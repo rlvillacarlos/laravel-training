@@ -61,7 +61,7 @@ class GameController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Not Implemented
     }
 
     /**

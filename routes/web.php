@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 Route::resource('games', GameController::class)->except([
-    'edit', 'update'
+    'edit'
 ])->parameter('games', 'id');
 
 Route::name("game.")->group(function (){
