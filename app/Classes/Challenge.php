@@ -8,15 +8,15 @@ class Challenge
 
     public int $lives {
         get {
-            return self::MAX_LIVES - count($this->usedLetters) + count($this->foundLetters);
+            return self::MAX_LIVES - count($this->guesses) + count($this->correctGuesses);
         }
     }
 
     private bool $isSkipped = false;
 
-    private array $foundLetters = [];
+    private array $correctGuesses = [];
 
-    private array $usedLetters = [];
+    private array $guesses = [];
 
     public function __construct(
         public readonly string $category,
@@ -24,11 +24,11 @@ class Challenge
     )
     {/** Empty */}
 
-    public function getUsedLetters() : array {
-        return $this->usedLetters;
+    public function getGuesses() : array {
+        return $this->guesses;
     }
     public function isAlreadyUsed(string $guess) : bool {
-        return in_array($guess, $this->usedLetters);
+        return in_array($guess, $this->guesses);
     }
 
     public function isOver() : bool {
@@ -36,10 +36,10 @@ class Challenge
     }
     
     public function guess(string $guess): bool {
-        $this->usedLetters[] = $guess;
+        $this->guesses[] = $guess;
 
         if(str_contains($this->word, $guess)){
-            $this->foundLetters[] = $guess;
+            $this->correctGuesses[] = $guess;
             return true;
         }
 
@@ -62,7 +62,7 @@ class Challenge
         return implode(
             " ",
             array_map(
-                fn ($char) => in_array($char, $this->foundLetters) ? $char : "_",
+                fn ($char) => in_array($char, $this->correctGuesses) ? $char : "_",
                 mb_str_split($this->word)
             )
         );

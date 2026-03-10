@@ -17,7 +17,7 @@ Route::name("game.")->group(function (){
             $request->session()->forget('game');
         }
 
-        $disabledKeys = $game->isOver() ? true : $game->getUsedLetters();
+        $disabledKeys = $game->isOver() ? true : $game->getGuesses();
         
         return view('game.show', compact('game', 'disabledKeys'));
     })->name('show');
