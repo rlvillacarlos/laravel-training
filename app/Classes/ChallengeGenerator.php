@@ -14,10 +14,10 @@ class ChallengeGenerator
         return array_keys($this->words);
     }
 
-    public function generate() : Challenge {
+    public function generate() : RandomWord {
         $category = array_rand($this->words);
         $word = $this->words[$category][array_rand($this->words[$category])];   
         
-        return new Challenge($category, $word);
+        return new RandomWord($category, $word);
     }
 }
