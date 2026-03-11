@@ -45,4 +45,20 @@
             @endif
         </form>
     </div>
+    @php $topGamers = $game->getTopGamers() @endphp
+    
+    @if($topGamers->isNotEmpty())
+    <br/>
+    <hr/>
+    <div>
+        <h2>Top Players</h2>
+        <ol>
+            @foreach ($topGamers as $gamer)
+            <li>
+                {{ $gamer->name }} - {{ $gamer->player->score }} point(s)
+            </li>
+            @endforeach
+        </ol>
+    </div>
+    @endif
 </x-app>
