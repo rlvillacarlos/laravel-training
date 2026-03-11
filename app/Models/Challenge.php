@@ -25,7 +25,7 @@ class Challenge extends Model
             'stages',
             'challenge_id',
             'player_id'
-        )->withPivot(['guesses', 'correct_guesses'])
+        )->withPivot(['id', 'guesses', 'correct_guesses', 'is_skipped'])
         ->withTimestamps()
         ->using(Stage::class)
         ->as('stage');

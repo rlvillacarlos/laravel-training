@@ -27,7 +27,7 @@ class Player extends Pivot
             'stages',
             'player_id',
             'challenge_id'
-        )->withPivot(['id','guesses', 'correct_guesses'])
+        )->withPivot(['id','guesses', 'correct_guesses', 'is_skipped'])
         ->withTimestamps()
         ->using(Stage::class)
         ->as('stage');
