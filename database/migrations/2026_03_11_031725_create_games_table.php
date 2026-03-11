@@ -12,10 +12,37 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('games', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->unique();
             $table->foreignId('user_id')->constrained();
             $table->string('name', 30)->unique();
-            $table->integer('starting_lives')->unsigned()->default(6);
+            $table->tinyInteger('starting_lives')->unsigned()->default(6);
+            $table->timestamps();
+        });
+        
+        Schema::create('challenges', function (Blueprint $table) {
+            $table->id();
+            $table->foreignUuid('game_id')->constrained();
+            $table->string('category');
+            $table->string('word');
+            $table->timestamps();
+        });
+        
+        Schema::create('players', function (Blueprint $table) {
+            $table->id();
+            $table->foreignUuid('game_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->boolean('is_active')->default(true);
+            $table->integer('score')->default(0);
+            $table->timestamps();
+        });
+        
+        Schema::create('stages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('player_id')->constrained();
+            $table->foreignId('challenge_id')->constrained();
+            $table->json('guesses')->nullable();
+            $table->json('correct_guesses')->nullable();
+            $table->boolean('is_skipped')->default(false);
             $table->timestamps();
         });
     }
@@ -25,6 +52,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('stages');
+        Schema::dropIfExists('players');
+        Schema::dropIfExists('challenges');
         Schema::dropIfExists('games');
     }
 };
