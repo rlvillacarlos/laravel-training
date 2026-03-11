@@ -15,4 +15,8 @@ class Game extends Model
     public $incrementing = false;
 
     protected $fillable = ['name', 'starting_lives'];
+
+    public function creator() : BelongsTo {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
