@@ -21,6 +21,5 @@ Route::middleware('auth')->group(function () {
         
     Route::resource('games', GameController::class)->except([
         'edit'
-    ])
-    ->parameter('games', 'id');
+    ]);
 });

@@ -22,14 +22,12 @@ class UpdateGameRequest extends FormRequest
      */
     public function rules(): array
     {
-        $game = $this->session()
-            ->get('games', collect([]))
-            ->filter(fn($game, $id) => $id == $this->id)
-            ->first();
+        $game = $this->route()->game;
+        $stage = $game->play($this->user());
 
         return [
             'guess' => [
-                Rule::notIn($game['challenge']->getGuesses())
+                Rule::notIn($stage->guesses)
             ]
         ];
     }
