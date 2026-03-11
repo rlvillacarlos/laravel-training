@@ -35,7 +35,7 @@ class Game extends Model
             'players',
             'game_id',
             'user_id'
-        )->withPivot(['id',  'is_active'])
+        )->withPivot(['id',  'is_active', 'score'])
         ->withTimestamps()
         ->using(Player::class)
         ->as('player');

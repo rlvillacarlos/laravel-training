@@ -58,7 +58,7 @@ class User extends Authenticatable
             'players',
             'user_id',
             'game_id'
-        )->withPivot(['id', 'is_active'])
+        )->withPivot(['id', 'is_active', 'score'])
         ->withTimestamps()
         ->using(Player::class)
         ->as('player');
