@@ -88,8 +88,9 @@ class Game extends Model
         });        
     }
 
-    public function getTop(int $n = 5) : Collection {
+    public function getTopGamers(int $n = 5) : Collection {
         return $this->gamers()
+            ->where('score','>',0)
             ->orderByPivotDesc('score')
             ->limit($n)
             ->get();
