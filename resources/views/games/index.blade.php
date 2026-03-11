@@ -5,8 +5,15 @@
 
     <h1>My Games</h1>
 
-    <a href="{{ route('games.create') }}">New Game</a>
-
+    <div>
+        <a href="{{ route('games.create') }}">New Game</a> | 
+        @if($owned)
+        <a href="{{ route('games.index') }}">Show All Games</a>
+        @else
+        <a href="{{ route('games.index', ['owned'=>true]) }}">Show My Games Only</a>        
+        @endif
+    </div>
+    <br/>
     @forelse ($games as $game)
         <div>
             {{ $loop->iteration }}. 

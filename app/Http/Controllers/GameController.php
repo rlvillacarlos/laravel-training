@@ -19,9 +19,14 @@ class GameController extends Controller
      */
     public function index(Request $request)
     {
-        $games = Game::get();
+        $owned = $request->query('owned', false);
+        if($owned){
+            $games = $request->user()->created_games;
+        } else {
+            $games = Game::get();
+        }
 
-        return view('games.index', compact('games'));
+        return view('games.index', compact('games', 'owned'));
     }
 
     /**
