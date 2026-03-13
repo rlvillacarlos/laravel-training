@@ -23,10 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('play-game', function (User $user, Game $game,bool $isCreator) {
-            return ($isCreator ? true : $user->games()->find($game->id))? 
+        Gate::define('play-game', function (User $user, Game $game, bool $isCreator) {
+            return ($isCreator ? true : $user->games()->find($game->id)) ?
                 Response::allow()
-                : Response::denyWithStatus(404);;
+                : Response::denyWithStatus(404);
         });
     }
 }

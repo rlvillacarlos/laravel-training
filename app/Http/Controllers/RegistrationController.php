@@ -17,6 +17,7 @@ class RegistrationController extends Controller
     {
         $data = $request->safe(['name', 'email', 'password']);
         event(new Registered(User::create($data)));
-        return redirect()->route('registration.show')->with('success',true);
+
+        return redirect()->route('registration.show')->with('success', true);
     }
 }

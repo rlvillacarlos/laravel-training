@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreGameRequest extends FormRequest
 {
@@ -18,30 +18,30 @@ class StoreGameRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
             'name' => [
                 'required',
-                'unique:games'
-            ]
+                'unique:games',
+            ],
         ];
     }
 
-    public function messages(): array 
+    public function messages(): array
     {
         return [
             'required' => 'The :attribute is required.',
-            'unique' => 'The :attribute is already taken'
+            'unique' => 'The :attribute is already taken',
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'name' => 'game name'
+            'name' => 'game name',
         ];
     }
 }

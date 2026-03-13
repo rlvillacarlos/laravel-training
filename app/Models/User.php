@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -11,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -23,7 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'email_verified_at'
+        'email_verified_at',
     ];
 
     /**
@@ -49,19 +50,21 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function created_games() : HasMany {
+    public function created_games(): HasMany
+    {
         return $this->hasMany(Game::class);
     }
 
-    public function games() : BelongsToMany {
+    public function games(): BelongsToMany
+    {
         return $this->belongsToMany(
-            Game::class, 
+            Game::class,
             'players',
             'user_id',
             'game_id'
         )->withPivot(['id', 'is_active', 'score'])
-        ->withTimestamps()
-        ->using(Player::class)
-        ->as('player');
+            ->withTimestamps()
+            ->using(Player::class)
+            ->as('player');
     }
 }

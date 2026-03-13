@@ -18,7 +18,7 @@ return new class extends Migration
             $table->tinyInteger('starting_lives')->unsigned()->default(6);
             $table->timestamps();
         });
-        
+
         Schema::create('challenges', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('game_id')->constrained();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('word');
             $table->timestamps();
         });
-        
+
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('game_id')->constrained();
@@ -35,7 +35,7 @@ return new class extends Migration
             $table->integer('score')->default(0);
             $table->timestamps();
         });
-        
+
         Schema::create('stages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('player_id')->constrained();

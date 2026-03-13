@@ -13,9 +13,7 @@ class Keyboard extends Component
      */
     public function __construct(
         public array|bool $disabledKeys
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
@@ -23,9 +21,9 @@ class Keyboard extends Component
     public function render(): View|Closure|string
     {
         $keygroups = [
-            ['Q','W','E','R','T','Y','U','I','O','P'],
-            ['A','S','D','F','G','H','J','K','L'],
-            ['Z','X','C','V','B','N','M'],
+            ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+            ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+            ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
         ];
 
         return view('components.keyboard', compact('keygroups'));

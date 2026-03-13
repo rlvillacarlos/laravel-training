@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Registration;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -18,7 +19,7 @@ class SaveRegistrationRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -27,34 +28,35 @@ class SaveRegistrationRequest extends FormRequest
                 'required',
                 'string',
                 'unique:users',
-                'alpha_dash:ascii'
+                'alpha_dash:ascii',
             ],
             'email' => [
                 'required',
                 Rule::email()->strict()
                     ->validateMxRecord()
                     ->preventSpoofing(),
-                'unique:users'
+                'unique:users',
             ],
             'password' => [
                 'required',
                 'string',
-                'min:' . config('registration.password.length'),
-                'confirmed'
-            ]
+                'min:'.config('registration.password.length'),
+                'confirmed',
+            ],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'alpha_dash' => 'The :attribute is not valid.'
+            'alpha_dash' => 'The :attribute is not valid.',
         ];
     }
+
     public function attributes(): array
     {
         return [
-            'name' => 'player name'
+            'name' => 'player name',
         ];
     }
 }

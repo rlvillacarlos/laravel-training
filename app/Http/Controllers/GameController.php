@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Gate;
 
 class GameController extends Controller
 {
-    public function __construct(private readonly ChallengeGenerator $challengeGenerator)
-    {
-    }
+    public function __construct(private readonly ChallengeGenerator $challengeGenerator) {}
 
     /**
      * Display a listing of the resource.
@@ -21,7 +19,7 @@ class GameController extends Controller
     public function index(Request $request)
     {
         $owned = $request->query('owned', false);
-        if($owned){
+        if ($owned) {
             $games = $request->user()->created_games;
         } else {
             $games = Game::get();
@@ -57,9 +55,9 @@ class GameController extends Controller
      */
     public function show(Request $request, Game $game)
     {
-        $isCreator = !is_null($request->user()->created_games->find($game->id));
-    
-        if(!Gate::allows('view', [$game, $isCreator])){
+        $isCreator = ! is_null($request->user()->created_games->find($game->id));
+
+        if (! Gate::allows('view', [$game, $isCreator])) {
             abort(403);
         }
 
@@ -82,21 +80,21 @@ class GameController extends Controller
      */
     public function update(UpdateGameRequest $request, Game $game)
     {
-         $isCreator = !is_null($request->user()->created_games->find($game->id));
-    
-        if(!Gate::allows('update', [$game, $isCreator])){
+        $isCreator = ! is_null($request->user()->created_games->find($game->id));
+
+        if (! Gate::allows('update', [$game, $isCreator])) {
             abort(403);
         }
 
         $stage = $game->play($request->user());
 
-        if($request->input('skip')){
+        if ($request->input('skip')) {
             $stage->skip();
         } else {
             $guess = $request->safe()->guess;
             $stage->guess($guess);
         }
-        
+
         return redirect()->route('games.show', compact('game'));
     }
 

@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Game;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class GamePolicy
 {
@@ -21,7 +20,7 @@ class GamePolicy
      */
     public function view(User $user, Game $game, bool $isCreator): bool
     {
-        return $isCreator ? true : !is_null($user->games()->find($game->id));
+        return $isCreator ? true : ! is_null($user->games()->find($game->id));
     }
 
     /**
