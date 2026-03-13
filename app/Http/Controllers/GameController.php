@@ -63,8 +63,8 @@ class GameController extends Controller
             abort(403);
         }
 
-        $stage = $game->play($request->user(), boolval($request->query('next', false)));
-        $disabledKeys = $stage->getGuesses()->all();
+        $stage = $game->play($request->user(), boolval($request->input('next', false)));
+        $disabledKeys = $stage->isOver() ? true : $stage->getGuesses()->all();
 
         return view('games.show', compact('game', 'stage', 'disabledKeys'));
     }

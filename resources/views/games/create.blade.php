@@ -12,6 +12,7 @@
                 <div>{{ $message }}</div>
             @enderror
         </div>
+        <br />
         <div>
             <button type="submit">Create</button>
         </div>

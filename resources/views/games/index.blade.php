@@ -3,14 +3,14 @@
         Available Games
     </x-slot:title>
 
-    <h1>My Games</h1>
+    <h2>My Games</h2>
 
     <div>
-        <a href="{{ route('games.create') }}">New Game</a> | 
+        <a href="{{ route('games.create') }}">[New Game]</a> | 
         @if($owned)
-        <a href="{{ route('games.index') }}">Show All Games</a>
+        <a href="{{ route('games.index') }}">[Show All Games]</a>
         @else
-        <a href="{{ route('games.index', ['owned'=>true]) }}">Show My Games Only</a>        
+        <a href="{{ route('games.index', ['owned'=>true]) }}">[Show My Games Only]</a>        
         @endif
     </div>
     <br/>

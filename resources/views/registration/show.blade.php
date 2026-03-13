@@ -3,7 +3,7 @@
         Create Player Account
     </x-slot:title>
 
-    <h1>Create Player Account</h1>
+    <h2>Create Player Account</h2>
     @if(session('success'))
     <div>New Account Created!</div>
     @endif
@@ -46,6 +46,7 @@
                 <div>{{ $message }}</div>
             @enderror
         </div>
+        <br/>
         <div>
             <button type="submit">Create Account</button>
         </div>
