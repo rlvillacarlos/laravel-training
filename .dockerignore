@@ -1,0 +1,12 @@
+**/vendor
+**/node_modules
+**/database.sqlite
+**/.agents
+**/.claude
+**/.github
+**/.vscode
+**/*.log
+.editorconfig
+.dockerignore
+Dockerfile
+compose.yml
