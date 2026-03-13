@@ -2,22 +2,29 @@
 
 namespace App\Classes;
 
+use Illuminate\Support\Facades\Http;
+
 class ChallengeGenerator
 {
-    private array $words = [
-        'animals' => ['HORSE', 'SHEEP', 'RABBIT', 'DONKEY', 'GIRAFFE', 'TIGER', 'PANDA', 'ZEBRA', 'ELEPHANT', 'MONKEY'],
-        'countries' => ['CANADA', 'JAPAN', 'BRAZIL', 'FRANCE', 'GERMANY', 'INDIA', 'CHINA', 'EGYPT', 'SPAIN', 'ITALY'],
-        'programming_languages' => ['JAVASCRIPT', 'PYTHON', 'SWIFT', 'KOTLIN', 'CSHARP', 'GOLANG', 'SCALA', 'ELIXIR', 'HASKELL', 'OBJECTIVEC'],
-    ];
-  
+    private array $categories = ['animals', 'countries', 'programming_languages'];
+
     public function getCategories() : array {
-        return array_keys($this->words);
+        return $this->categories;
     }
 
     public function generate() : RandomWord {
-        $category = array_rand($this->words);
-        $word = $this->words[$category][array_rand($this->words[$category])];   
+        $category = $this->categories[array_rand($this->categories)];
         
+        $response = Http::withoutVerifying()
+            ->get('https://random-words-api.kushcreates.com/api',[
+                'language'=>'en',
+                'category'=>$category,
+                'length'=>8,
+                'type'=>'uppercase',
+                'words'=>1
+            ]);
+
+        $word = $response[0]['word'];
         return new RandomWord($category, $word);
     }
 }
