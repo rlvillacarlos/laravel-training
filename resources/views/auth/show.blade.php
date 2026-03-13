@@ -2,7 +2,6 @@
     <x-slot:title>
         Log-in
     </x-slot:title>
-    <h1>Log-in to Hangman</h1>
     <form method="post" action="{{ route('auth.login') }}">
         @csrf
         <div>
@@ -23,6 +22,7 @@
                 <div>{{ $message }}</div>
             @enderror
         </div>
+        <br/>
         <div>
             <button type="submit">Log-in</button>
         </div>

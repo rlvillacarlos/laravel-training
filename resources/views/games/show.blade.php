@@ -3,7 +3,7 @@
         {{ $stage->challenge->category }}
     </x-slot:title>
     
-    <h1>{{ $game->name }}</h1>
+    <h2>{{ $game->name }}</h2>
     @if($stage->isCompleted())
         <div>Congratulations!</div>
     @elseif ($stage->isFailed())
@@ -34,21 +34,24 @@
             @enderror
             <x-keyboard :disabled-keys="$disabledKeys"/>
 
-            @if(!$stage->isOver())
             <div>
+                <hr/>
+                @if(!$stage->isOver())
                 <button type="submit" name="skip" value=true>
                     Skip stage
                 </button>
+                @else
+                    <button type="submit" form="next">Next stage</button>
+                @endif
             </div>
-            @else
-                <a href="{{ route('games.show', ['game'=>$game, 'next'=>true]) }}">Next stage</a>
-            @endif
+        </form>
+        <form id="next" method="get" action="{{ route('games.show', compact('game')) }}">
+            <input type="hidden" name="next" value="true" />
         </form>
     </div>
     @php $topGamers = $game->getTopGamers() @endphp
     
     @if($topGamers->isNotEmpty())
-    <br/>
     <hr/>
     <div>
         <h2>Top Players</h2>

@@ -1,6 +1,5 @@
 <?php
 
-use App\Classes\ChallengeGenerator;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\RegistrationController;

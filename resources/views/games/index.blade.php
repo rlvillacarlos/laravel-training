@@ -3,7 +3,7 @@
         Available Games
     </x-slot:title>
 
-    <h1>My Games</h1>
+    <h2>My Games</h2>
 
     <div>
         <a href="{{ route('games.create') }}">New Game</a> | 
