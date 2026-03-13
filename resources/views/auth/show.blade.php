@@ -26,5 +26,11 @@
         <div>
             <button type="submit">Log-in</button>
         </div>
+        <hr/>
+        @error('oauth')
+            <div>{{ $message }}</div>
+        @enderror
+        <a href="{{ route('registration.show') }}">[Register Account]</a> | 
+        <a href="{{ route('oauth.show') }}">[Login via Google]</a>
     </form>
 </x-app>

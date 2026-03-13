@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginAuthRequest;
+use App\Models\User;
 use Auth;
+use Exception;
 use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -34,5 +37,41 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
     
         return redirect()->route('login');
+    }
+
+    public function oauthShow() {
+        $options = [
+            'prompt' => 'select_account consent', 
+            'hd'=>'cvsu.edu.ph'
+        ];
+        
+        return Socialite::driver('google')
+            ->with($options)
+            ->redirect();
+    }
+
+    public function oauthLogin() {
+        try{
+            $googleUser = Socialite::driver('google')->user();
+            
+            $user = User::firstWhere('email', $googleUser->email);
+
+            if(!$user){
+                $user = User::create([
+                    'name' => $googleUser->email,
+                    'email' => $googleUser->email,
+                    'password'=> '',
+                    'email_verified_at' => now(),
+                ]);
+            }
+
+            Auth::login($user);
+        
+            return redirect('/games');
+        } catch (Exception) {
+            return redirect()->route('login')->withErrors([
+                'oauth' => 'Login via Google account failed. Please try again.'
+            ]);
+        }
     }
 }

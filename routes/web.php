@@ -42,6 +42,9 @@ Route::middleware('guest')->group(function (){
 
     Route::get('/', [AuthController::class, 'show'])->name('login');
     Route::post('/', [AuthController::class, 'login'])->name('auth.login');
+
+    Route::get('/oauth', [AuthController::class, 'oauthShow'])->name('oauth.show');
+    Route::get('/oauth/callback', [AuthController::class, 'oauthLogin'])->name('oauth.login');
 });
 
 Route::middleware(['auth'])->group(function () {
