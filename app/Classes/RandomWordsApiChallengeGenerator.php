@@ -2,15 +2,17 @@
 
 namespace App\Classes;
 
+use App\Interfaces\ChallengeGenerator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class ChallengeGenerator
+class RandomWordsApiChallengeGenerator implements ChallengeGenerator
 {
     private array $categories = ['animals', 'countries', 'programming_languages'];
 
-    public function getCategories(): array
+    public function getCategories(): Collection
     {
-        return $this->categories;
+        return collect($this->categories);
     }
 
     public function generate(): RandomWord
