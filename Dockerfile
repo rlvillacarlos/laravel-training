@@ -2,7 +2,7 @@
 
 # First stage - Setup PHP and NodeJs 
 # Use serversideup's php image as the base image (update the tag to match the version you want to use)
-FROM ghcr.io/serversideup/php:8.5-fpm-apache as base
+FROM ghcr.io/serversideup/php:8.5-fpm-apache AS base
 
 # Switch to root so we can do root things
 USER root
@@ -21,7 +21,7 @@ RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
 ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 # Second stage - Setup App 
-FROM base as app
+FROM base AS app
 
 # Copy app file
 COPY --chown=www-data:www-data . /var/www/html

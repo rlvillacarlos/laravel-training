@@ -6,6 +6,8 @@
 **/.github
 **/.vscode
 **/*.log
+**/.git
+**/.gitignore
 .editorconfig
 .dockerignore
 Dockerfile
