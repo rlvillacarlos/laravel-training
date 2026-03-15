@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Classes\ChallengeGenerator;
+use App\Interfaces\ChallengeGenerator;
 use Database\Factories\GameFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

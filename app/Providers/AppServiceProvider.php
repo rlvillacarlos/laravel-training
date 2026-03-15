@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use App\Classes\LocalChallengeGenerator;
+use App\Classes\RandomWordsApiChallengeGenerator;
+use App\Interfaces\ChallengeGenerator;
 use App\Models\Game;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,5 +32,12 @@ class AppServiceProvider extends ServiceProvider
                 Response::allow()
                 : Response::denyWithStatus(404);
         });
+
+        App::singleton(
+            ChallengeGenerator::class,
+            fn () => config('app.env') == 'production' ?
+                new RandomWordsApiChallengeGenerator
+                : new LocalChallengeGenerator
+        );
     }
 }

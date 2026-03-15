@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Classes\ChallengeGenerator;
 use App\Http\Requests\StoreGameRequest;
 use App\Http\Requests\UpdateGameRequest;
+use App\Interfaces\ChallengeGenerator;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
