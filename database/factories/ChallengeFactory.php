@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Classes\LocalChallengeGenerator;
 use App\Models\Challenge;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,8 +18,11 @@ class ChallengeFactory extends Factory
      */
     public function definition(): array
     {
+        $challenge = app(LocalChallengeGenerator::class)->generate();
+
         return [
-            //
+            'category' => $challenge->category,
+            'word' => $challenge->word,
         ];
     }
 }
