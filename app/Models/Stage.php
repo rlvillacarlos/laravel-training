@@ -36,15 +36,6 @@ class Stage extends Pivot
         return $this->belongsTo(Challenge::class);
     }
 
-    public function lives(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->challenge->lives
-                - $this->guesses->count()
-                + $this->correct_guesses->count()
-        );
-    }
-
     public function guess(string $guess)
     {
         DB::transaction(function () use ($guess) {
@@ -122,5 +113,14 @@ class Stage extends Pivot
             'correct_guesses' => AsCollection::class,
             'is_skipped' => 'boolean',
         ];
+    }
+
+    protected function lives(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->challenge->lives
+                - $this->guesses->count()
+                + $this->correct_guesses->count()
+        );
     }
 }

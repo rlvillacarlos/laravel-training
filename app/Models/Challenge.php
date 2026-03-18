@@ -34,13 +34,6 @@ class Challenge extends Model
             ->as('stage');
     }
 
-    public function lives(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->game->starting_lives
-        );
-    }
-
     public function contains(string $guess)
     {
         return str_contains($this->word, $guess);
@@ -51,10 +44,16 @@ class Challenge extends Model
         return $this->game->getChallenge($this);
     }
 
-    public function category(): Attribute
+    protected function category(): Attribute
     {
         return Attribute::make(
             get: fn (string $category) => ucwords(str_replace('_', ' ', $category))
+        );
+    }
+    protected function lives(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->game->starting_lives
         );
     }
 }
