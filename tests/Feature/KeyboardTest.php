@@ -16,7 +16,8 @@ describe('Keyboard Component', function () {
         $keyboard = $this->component(Keyboard::class, ['disabledKeys' => []]);
         $keyboard->assertElementExists('button', function (AssertElement $assertElement) {
             $assertElement->each('button', function (AssertElement $assertElement, $index) {
-                $assertElement->has('value', $this->letters[$index]);
+                $assertElement->has('value', $this->letters[$index])
+                    ->containsText($this->letters[$index]);
             });
         });      
     });
