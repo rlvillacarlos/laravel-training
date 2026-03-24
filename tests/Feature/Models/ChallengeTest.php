@@ -26,13 +26,16 @@ describe('Challenge Model', function () {
         });
 
         it('belongs to 0 or more players', function () {
-            $players = $this->game->gamers->map->player;
+            $challenge = Challenge::factory()
+                ->for($this->game)
+                ->create();
+            expect($challenge->challengers)->toBeEmpty();
 
+            $players = $this->game->gamers->map->player;
             $challenge = Challenge::factory()
                 ->for($this->game)
                 ->hasAttached($players, [], 'challengers')
-                ->create();
-                
+                ->create();                
             expect($challenge->challengers()->count())->not()->toBe(0)
                 ->and($challenge->challengers->diff($players))->toBeEmpty();
         });
