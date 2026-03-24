@@ -15,7 +15,17 @@ use Tests\TestCase;
 
 pest()->extend(TestCase::class)
  // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->group('feature')
     ->in('Feature');
+
+pest()->group('unit')
+    ->in('Unit');
+
+pest()->group('models')
+    ->in('Feature\\Models');
+
+pest()->group('components')
+    ->in('Feature\\Components');
 
 /*
 |--------------------------------------------------------------------------
