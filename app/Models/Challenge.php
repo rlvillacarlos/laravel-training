@@ -39,12 +39,12 @@ class Challenge extends Model
         return str_contains($this->word, $guess);
     }
 
-    public function next(): Challenge
+    public function next(): ?Challenge
     {
         return $this->game
             ->challenges()
-            ->where('created_at', '>', $this->created_at)
-            ->orderBy('created_at')
+            ->where('id','>',$this->id)
+            ->orderBy('id')
             ->first();
     }
 
