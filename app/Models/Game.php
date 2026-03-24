@@ -51,14 +51,10 @@ class Game extends Model
             // Dependency Injection
             $challengeGenerator = app(ChallengeGenerator::class);
 
-            $next = $this->challenges()
-                ->when(
-                    $after,
-                    fn ($query) => $query->where('created_at', '>', $after->created_at)
-                )
-                ->orderBy('created_at')
-                ->first();
-
+            if($after) {
+                $next = $after->next();
+            }
+            
             if (! $next) {
                 $newChallenge = $challengeGenerator->generate();
                 $next = $this->challenges()->create([

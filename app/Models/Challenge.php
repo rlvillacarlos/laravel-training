@@ -41,7 +41,11 @@ class Challenge extends Model
 
     public function next(): Challenge
     {
-        return $this->game->getChallenge($this);
+        return $this->game
+            ->challenges()
+            ->where('created_at', '>', $this->created_at)
+            ->orderBy('created_at')
+            ->first();
     }
 
     protected function category(): Attribute
