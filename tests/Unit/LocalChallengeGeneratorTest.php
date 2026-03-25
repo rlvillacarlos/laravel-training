@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 describe('LocalChallengeGenerator', function (){
     beforeEach(function () {
         $this->generator = app(LocalChallengeGenerator::class);
-        $this->categories = $this->generator->getCategories();
     });
 
     it('implements ChallengeGenerator interface', function () {
@@ -16,13 +15,13 @@ describe('LocalChallengeGenerator', function (){
     });
 
     describe('getCategories', function () {        
-        it('returns collection of categories', function () {
-            expect($this->categories)->toBeInstanceOf(Collection::class);
-        });
-    
-        it('has all defined categories', function () {
-            expect($this->categories->diff(['animals','countries','programming_languages']))
-                ->toBeEmpty();
+        it('returns collection of all defined categories', function () {
+            $expectedCategories = collect(['animals','countries','programming_languages']);
+            $categories = $this->generator->getCategories();
+
+            expect($categories)->toBeInstanceOf(Collection::class)
+                ->and($categories->diff($expectedCategories))->toBeEmpty()
+                ->and($expectedCategories->diff($categories))->toBeEmpty();
         });
     });
 
