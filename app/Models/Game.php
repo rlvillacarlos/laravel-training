@@ -50,11 +50,7 @@ class Game extends Model
         return DB::transaction(function () use ($after) {
             // Dependency Injection
             $challengeGenerator = app(ChallengeGenerator::class);
-
-            if($after) {
-                $next = $after->next();
-            }
-            
+            $next = $after?->next();
             if (! $next) {
                 $newChallenge = $challengeGenerator->generate();
                 $next = $this->challenges()->create([
@@ -62,7 +58,6 @@ class Game extends Model
                     'word' => $newChallenge->word,
                 ]);
             }
-
             return $next;
         });
     }
