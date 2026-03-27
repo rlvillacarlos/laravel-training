@@ -27,6 +27,9 @@ pest()->group('models')
 pest()->group('components')
     ->in('Feature\\Components');
 
+pest()->group('services')
+    ->in('Feature\\Services');
+
 /*
 |--------------------------------------------------------------------------
 | Expectations
