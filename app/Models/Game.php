@@ -58,6 +58,7 @@ class Game extends Model
                     'word' => $newChallenge->word,
                 ]);
             }
+
             return $next;
         });
     }

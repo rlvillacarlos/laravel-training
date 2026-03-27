@@ -6,15 +6,15 @@ use App\Models\Challenge;
 use App\Models\Game;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
- 
- uses(RefreshDatabase::class);
+
+uses(RefreshDatabase::class);
 
 describe('Challenge Model', function () {
     beforeEach(function () {
         $this->game = Game::factory()
             ->for(User::factory(), 'creator')
             ->has(User::factory(3), 'gamers')
-            ->create(['starting_lives'=>10]);    
+            ->create(['starting_lives' => 10]);
     });
 
     describe('Relationships', function () {
@@ -35,28 +35,28 @@ describe('Challenge Model', function () {
             $challenge = Challenge::factory()
                 ->for($this->game)
                 ->hasAttached($players, [], 'challengers')
-                ->create();                
+                ->create();
             expect($challenge->challengers()->count())->not()->toBe(0)
                 ->and($challenge->challengers->diff($players))->toBeEmpty();
         });
     });
 
-    describe('Accessor/Mutators', function (){
+    describe('Accessor/Mutators', function () {
         describe('contains', function () {
             beforeEach(function () {
                 $this->mock(LocalChallengeGenerator::class)
                     ->shouldReceive('generate')
-                    ->andReturn(new RandomWord('animals', 'HORSE'));                
+                    ->andReturn(new RandomWord('animals', 'HORSE'));
                 $this->challenge = Challenge::factory()
                     ->for($this->game)
                     ->create();
             });
-            
+
             it('returns true if the challenge word contains the given guess', function () {
                 expect($this->challenge->contains('H'))->toBeTrue();
-            }); 
+            });
 
-            it('returns false if the challenge word does not contains the given guess', function () {                
+            it('returns false if the challenge word does not contains the given guess', function () {
                 expect($this->challenge->contains('X'))->toBeFalse();
             });
         });
@@ -65,10 +65,10 @@ describe('Challenge Model', function () {
             beforeEach(function () {
                 $this->mock(LocalChallengeGenerator::class)
                     ->shouldReceive('generate')
-                    ->andReturn(new RandomWord('a_category', 'WORD'));       
+                    ->andReturn(new RandomWord('a_category', 'WORD'));
                 $this->challenge = Challenge::factory()
                     ->for($this->game)
-                    ->create();         
+                    ->create();
             });
 
             it('creates an attribute that returns the formatted category', function () {
@@ -77,10 +77,10 @@ describe('Challenge Model', function () {
         });
 
         describe('lives', function () {
-            beforeEach(function () {                    
+            beforeEach(function () {
                 $this->challenge = Challenge::factory()
                     ->for($this->game)
-                    ->create();         
+                    ->create();
             });
 
             it('creates an attribute that returns the starting lives set in the game', function () {
@@ -89,7 +89,7 @@ describe('Challenge Model', function () {
             });
         });
     });
-    
+
     describe('Methods', function () {
         describe('next()', function () {
             it('returns the challenge that immediately follows base on order of creation', function () {
@@ -97,11 +97,11 @@ describe('Challenge Model', function () {
                     ->for($this->game)
                     ->create()
                     ->sortBy('created_at');
-                
-                expect($challenges)->each(function ($challenge, $index) use($challenges) {
+
+                expect($challenges)->each(function ($challenge, $index) use ($challenges) {
                     $next = $challenge->next();
                     $expected = $challenges->get($index + 1);
-                    if($expected){
+                    if ($expected) {
                         $next->is($expected)->toBeTrue();
                     }
                 });
@@ -115,5 +115,5 @@ describe('Challenge Model', function () {
                 expect($challenge->next())->toBeNull();
             });
         });
-    });    
+    });
 });

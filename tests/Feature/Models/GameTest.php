@@ -10,30 +10,30 @@ uses(RefreshDatabase::class);
 
 describe('Game Model', function () {
     beforeEach(function () {
-        $this->user = User::factory()->create();    
+        $this->user = User::factory()->create();
     });
 
     describe('Relationships', function () {
-        it('belongs to a user as creator', function (){
-            $game = Game::factory()->for($this->user, 'creator')->create();            
+        it('belongs to a user as creator', function () {
+            $game = Game::factory()->for($this->user, 'creator')->create();
             expect($game->creator->is($this->user))->toBeTrue();
         });
 
-        it('has 0 or more challenges', function (){
+        it('has 0 or more challenges', function () {
             $game = Game::factory()
                 ->for($this->user, 'creator')
                 ->create();
 
             expect($game->challenges)->toBeEmpty();
-            
+
             $game = Game::factory()
                 ->for($this->user, 'creator')
                 ->has(Challenge::factory(3), 'challenges')
-                ->create();            
+                ->create();
             expect($game->challenges()->count())->toBe(3);
         });
 
-        it('has 0 or more gamers', function (){
+        it('has 0 or more gamers', function () {
             $game = Game::factory()
                 ->for($this->user, 'creator')
                 ->create();
@@ -42,17 +42,17 @@ describe('Game Model', function () {
             $game = Game::factory()
                 ->for($this->user, 'creator')
                 ->has(User::factory(3), 'gamers')
-                ->create();            
+                ->create();
             expect($game->gamers()->count())->toBe(3);
         });
     });
 
     describe('Methods', function () {
-        describe('getChallenge()', function () {           
+        describe('getChallenge()', function () {
             it('creates and return a new challenge if none is available', function () {
                 $game = Game::factory()
                     ->for($this->user, 'creator')
-                    ->create(); 
+                    ->create();
 
                 expect($game->challenges()->count())->toBe(0)
                     ->and($game->getChallenge())->not()->toBeNull()
@@ -65,19 +65,19 @@ describe('Game Model', function () {
                 $game = Game::factory()
                     ->for($this->user, 'creator')
                     ->has(Challenge::factory(3), 'challenges')
-                    ->create(); 
-                
+                    ->create();
+
                 $challenges = $game->challenges()->orderBy('id')->get();
-                
-                expect($challenges)->each(function ($challenge, $index) use($game, $challenges){
-                    if($index < $challenges->count() - 1){
+
+                expect($challenges)->each(function ($challenge, $index) use ($game, $challenges) {
+                    if ($index < $challenges->count() - 1) {
                         expect($game->getChallenge($challenge->value)->is($challenges[$index + 1]))->toBeTrue();
                     }
                 });
             });
         });
 
-        describe('getTopGamers()', function () {    
+        describe('getTopGamers()', function () {
             it('returns up to n gamers with non-zero scores', function () {
                 $gamerCount = 20;
                 $gamerCountHalf = intdiv($gamerCount, 2);
@@ -87,14 +87,14 @@ describe('Game Model', function () {
                     ->for($this->user, 'creator')
                     ->hasAttached(
                         User::factory($gamerCount),
-                        new Sequence(['score'=>0],['score'=>1]),
-                        'gamers' 
+                        new Sequence(['score' => 0], ['score' => 1]),
+                        'gamers'
                     )->create();
-                
-                $moreTopGamers = $game->getTopGamers($gamerCountQuarter); 
-                $lessTopGamers = $game->getTopGamers($gamerCount); 
+
+                $moreTopGamers = $game->getTopGamers($gamerCountQuarter);
+                $lessTopGamers = $game->getTopGamers($gamerCount);
                 $equalTopGamers = $game->getTopGamers($gamerCountHalf);
-                 
+
                 expect($moreTopGamers->count())->toBe($gamerCountQuarter)
                     ->and($moreTopGamers)->each(fn ($gamer) => $gamer->player->score->toBeGreaterThan(0))
                     ->and($lessTopGamers->count())->toBe($gamerCountHalf)

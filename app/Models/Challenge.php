@@ -43,7 +43,7 @@ class Challenge extends Model
     {
         return $this->game
             ->challenges()
-            ->where('id','>',$this->id)
+            ->where('id', '>', $this->id)
             ->orderBy('id')
             ->first();
     }
@@ -54,6 +54,7 @@ class Challenge extends Model
             get: fn (string $category) => ucwords(str_replace('_', ' ', $category))
         );
     }
+
     protected function lives(): Attribute
     {
         return Attribute::make(

@@ -6,7 +6,7 @@ use App\Interfaces\ChallengeGenerator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-describe('RandomWordsApiChallengeGenerator', function (){
+describe('RandomWordsApiChallengeGenerator', function () {
     beforeEach(function () {
         $this->generator = app(RandomWordsApiChallengeGenerator::class);
         $this->categories = $this->generator->getCategories();
@@ -16,33 +16,33 @@ describe('RandomWordsApiChallengeGenerator', function (){
         expect($this->generator)->toBeInstanceOf(ChallengeGenerator::class);
     });
 
-    describe('getCategories', function () {        
+    describe('getCategories', function () {
         it('returns collection of categories', function () {
             expect($this->categories)->toBeInstanceOf(Collection::class);
         });
-    
+
         it('has all defined categories', function () {
-            expect($this->categories->diff(['animals','countries','programming_languages']))
+            expect($this->categories->diff(['animals', 'countries', 'programming_languages']))
                 ->toBeEmpty();
         });
     });
 
     describe('generate', function () {
         it('calls the API endpoint to retrieve random word', function () {
-            $result = $this->generator->generate(); 
+            $result = $this->generator->generate();
             expect($result)->toBeInstanceOf(RandomWord::class)
                 ->and($result->category)->not()->toBeEmpty()
                 ->and($result->word)->not()->toBeEmpty();
         });
 
         it('calls the API endpoint and return the API-provided random word', function () {
-            $randomWord = "laravel";
+            $randomWord = 'laravel';
             Http::shouldReceive('withoutVerifying')->once()->andReturnSelf();
-            Http::shouldReceive('get')->once()->andReturn([['word'=>$randomWord]]);
-            $result = $this->generator->generate(); 
+            Http::shouldReceive('get')->once()->andReturn([['word' => $randomWord]]);
+            $result = $this->generator->generate();
             expect($result)->toBeInstanceOf(RandomWord::class)
                 ->and($result->category)->not()->toBeEmpty()
                 ->and($result->word)->toBe($randomWord);
         });
-    });    
+    });
 });
