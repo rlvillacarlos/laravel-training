@@ -28,7 +28,14 @@ describe('RandomWordsApiChallengeGenerator', function (){
     });
 
     describe('generate', function () {
-        it('calls API endpoint to retrieve random word', function () {
+        it('calls the API endpoint to retrieve random word', function () {
+            $result = $this->generator->generate(); 
+            expect($result)->toBeInstanceOf(RandomWord::class)
+                ->and($result->category)->not()->toBeEmpty()
+                ->and($result->word)->not()->toBeEmpty();
+        });
+
+        it('calls the API endpoint and return the API-provided random word', function () {
             $randomWord = "laravel";
             Http::shouldReceive('withoutVerifying')->once()->andReturnSelf();
             Http::shouldReceive('get')->once()->andReturn([['word'=>$randomWord]]);
